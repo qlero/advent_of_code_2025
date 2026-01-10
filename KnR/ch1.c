@@ -66,11 +66,16 @@ void ch1_12() {
 }
 
 void ch1_15() {
-    int c;
-    c = getchar();
-    while (c != EOF) { // EOF can be done using Control - d
+    int c; // char could be used but int is instead bc: EOF needs a type size big enough. EOF is defined in stdio.h
+    // c = getchar();
+    // while (c != EOF) { // EOF can be done using Control - d
+    //     putchar(c);
+    //     c = getchar();
+    // }
+    while ((c = getchar()) != EOF) {
+        // printf("%d\n", c != EOF);
         putchar(c);
-        c = getchar();
     }
     printf("Exiting while loop\n");
+    printf("EOF takes the value: %d\n", EOF);
 }
