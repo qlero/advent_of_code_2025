@@ -1,7 +1,7 @@
 #include "read_file.h"
 
+int ERRONEOUS_update_position(char rotation, int distance, int * position);
 int update_position(char rotation, int distance, int * position);
-int update_position_2(char rotation, int distance, int * position);
 
 int main() 
 {
@@ -103,7 +103,7 @@ int main()
     for (int i; i < read_lines; i++)
     {
         // printf("ACTION:\t\t%c%d\n", rotations[i], distances[i]);
-        password += update_position_2(rotations[i], distances[i], &position);
+        password += update_position(rotations[i], distances[i], &position);
     }
     printf("Deduced password (day 1, part 2):\t%d\n", password);
     // 6530, 6107, 5623
@@ -111,69 +111,60 @@ int main()
     return 0;
 }
 
+int ERRONEOUS_update_position(char rotation, int distance, int * position)
+{
+    int increment = 0;
+    int start_pos;
+
+    while (distance > 0) {
+        
+        distance--;
+        start_pos = *position;
+
+        switch ( rotation )
+        {
+            case 'L':
+                *position = (((*position-1) % 100) + 100) % 100;
+                if (*position >= start_pos) {
+                    increment++;
+                }
+                break;
+            default: // for 'R'
+                *position = (((*position+1) % 100) + 100) % 100;
+                if (*position <= start_pos) {
+                    increment++;
+                }
+                break;
+        }
+    }
+    
+    return increment;
+}
+
 int update_position(char rotation, int distance, int * position)
 {
     int increment = 0;
 
-    // Updates position
-    switch ( rotation )
-    {
-        case 'L':
-            *position -= distance;
-            break;
-        default: // for 'R'
-            *position += distance;
-            break;
-    }
-
-    // Applies cycle
-    while (*position < 0 || *position > 99) 
-    {
-        
-        if (*position > 99)
-        {
-            *position  -= 100;
-            increment++;
-        } 
-        if (*position < 0) 
-        {
-            *position += 100;
-            increment++;
-        }    
-    }
-
-    return increment;
-}
-
-int update_position_2(char rotation, int distance, int * position)
-{
-    int increment = 0;
-
     while (distance > 0) {
+        
+        distance--;
 
-        // Updates position
         switch ( rotation )
         {
             case 'L':
-                (*position)--;
+                *position = (((*position-1) % 100) + 100) % 100;
+                if (*position == 0) {
+                    increment++;
+                }
                 break;
             default: // for 'R'
-                (*position)++;
+                *position = (((*position+1) % 100) + 100) % 100;
+                if (*position == 0) {
+                    increment++;
+                }
                 break;
         }
-
-        if (*position > 99)
-        {
-            *position  -= 100;
-            increment++;
-        } 
-        if (*position < 0) 
-        {
-            *position += 100;
-            increment++;
-        }
-
-        distance--;
     }
+    
     return increment;
 }
