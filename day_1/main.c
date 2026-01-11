@@ -1,6 +1,7 @@
 #include "read_file.h"
 
-void update_position(char rotation, int distance, int * position);
+int update_position(char rotation, int distance, int * position);
+int update_position_2(char rotation, int distance, int * position);
 
 int main() 
 {
@@ -62,6 +63,8 @@ int main()
 
     */
 
+    // day 1 part 1
+
     int password = 0;
     int position = 50;
 
@@ -73,14 +76,45 @@ int main()
             password++;
         }
     }
+    printf("Deduced password (day 1, part 1):\t%d\n", password);
 
-    printf("Deduced password: %d\n", password);
+    /*
+    You're actually supposed to count the number of times any click causes the dial to point at 0, regardless of whether it happens during a rotation or at the end of one.
+    Following the same rotations as in the above example, the dial points at zero a few extra times during its rotations:
+
+    The dial starts by pointing at 50.
+    The dial is rotated L68 to point at 82; during this rotation, it points at 0 once.
+    The dial is rotated L30 to point at 52.
+    The dial is rotated R48 to point at 0.
+    The dial is rotated L5 to point at 95.
+    The dial is rotated R60 to point at 55; during this rotation, it points at 0 once.
+    The dial is rotated L55 to point at 0.
+    The dial is rotated L1 to point at 99.
+    The dial is rotated L99 to point at 0.
+    The dial is rotated R14 to point at 14.
+    The dial is rotated L82 to point at 32; during this rotation, it points at 0 once.
+    */
+
+    // day 1 part 2
+
+    password = 0;
+    position = 50;
+
+    for (int i; i < read_lines; i++)
+    {
+        // printf("ACTION:\t\t%c%d\n", rotations[i], distances[i]);
+        password += update_position_2(rotations[i], distances[i], &position);
+    }
+    printf("Deduced password (day 1, part 2):\t%d\n", password);
+    // 6530, 6107, 5623
 
     return 0;
 }
 
-void update_position(char rotation, int distance, int * position)
-{ 
+int update_position(char rotation, int distance, int * position)
+{
+    int increment = 0;
+
     // Updates position
     switch ( rotation )
     {
@@ -95,13 +129,51 @@ void update_position(char rotation, int distance, int * position)
     // Applies cycle
     while (*position < 0 || *position > 99) 
     {
+        
         if (*position > 99)
         {
-            *position  = *position - 100;
+            *position  -= 100;
+            increment++;
         } 
         if (*position < 0) 
         {
-            *position  = 100 + *position;
-        }
+            *position += 100;
+            increment++;
+        }    
     }
+
+    return increment;
+}
+
+int update_position_2(char rotation, int distance, int * position)
+{
+    int increment = 0;
+
+    while (distance > 0) {
+
+        // Updates position
+        switch ( rotation )
+        {
+            case 'L':
+                (*position)--;
+                break;
+            default: // for 'R'
+                (*position)++;
+                break;
+        }
+
+        if (*position > 99)
+        {
+            *position  -= 100;
+            increment++;
+        } 
+        if (*position < 0) 
+        {
+            *position += 100;
+            increment++;
+        }
+
+        distance--;
+    }
+    return increment;
 }

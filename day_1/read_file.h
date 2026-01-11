@@ -10,7 +10,7 @@ long day_1_read_file(char * filename, char * rotations, int * distances) {
     long row_count = 0;
 
     // 1. Open the file for reading ("r")
-    file = fopen("data.txt", "r");
+    file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error opening file");
         return -1;
