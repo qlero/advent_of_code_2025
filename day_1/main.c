@@ -106,7 +106,7 @@ int main()
         password += update_position(rotations[i], distances[i], &position);
     }
     printf("Deduced password (day 1, part 2):\t%d\n", password);
-    // 6530, 6107, 5623
+    // 6530, 6107, 5623, 6133
 
     return 0;
 }
@@ -124,13 +124,13 @@ int ERRONEOUS_update_position(char rotation, int distance, int * position)
         switch ( rotation )
         {
             case 'L':
-                *position = (((*position-1) % 100) + 100) % 100;
+                *position = (*position-1) % 100;
                 if (*position >= start_pos) {
                     increment++;
                 }
                 break;
             default: // for 'R'
-                *position = (((*position+1) % 100) + 100) % 100;
+                *position = (*position+1) % 100;
                 if (*position <= start_pos) {
                     increment++;
                 }
