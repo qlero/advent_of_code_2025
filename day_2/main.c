@@ -12,8 +12,6 @@ int main()
     long start[MAX_ELEMENTS]; 
     long end[MAX_ELEMENTS]; 
     
-    long i = 0;
-    long j;
     long cutoff;
     long sum;
 
@@ -49,15 +47,15 @@ int main()
     Your job is to find all of the invalid IDs that appear in the given ranges. In the above example:
     */
 
-    for (i = 0; i < read_lines; i++) {
-        for (j = start[i]; j <= end[i]; j++) {
+    for (long i = 0; i < read_lines; i++) {
+        for (long j = start[i]; j <= end[i]; j++) {
             // reads the number into a character array
             sprintf(buffer, "%ld", j);
             // checks the character array for repetitions
             if (strlen(buffer) % 2 == 0){
                 cutoff = strlen(buffer) / 2;
                 check = 1;
-                for (int u = 0; u < cutoff; u++){
+                for (long u = 0; u < cutoff; u++){
                     if (buffer[u] != buffer[u+cutoff]) {
                         check = 0;
                     }
@@ -71,6 +69,49 @@ int main()
     }
 
     printf("Deduced value (day 1, part 1):\t%ld\n", sum);
+
+    /*
+    An ID is invalid if it is made only of some sequence of digits repeated at least twice. 
+    So, 12341234 (1234 two times), 123123123 (123 three times), 1212121212 (12 five times), and 1111111 (1 seven times) are all invalid IDs.
+    */
+
+    sum = 0;
+
+    // loops over existing elements
+    for (long i = 0; i < read_lines; i++) {
+        for (long j = start[i]; j <= end[i]; j++) {
+            // reads the number into a character array
+            sprintf(buffer, "%ld", j);
+            check = 0;
+            // loops over sliding window sizes
+            for (long u = 1; u <= strlen(buffer) / 2; u++) {
+                // copies initial array
+                char *slice_initial = &buffer[0];
+                for (long v = u; v <= strlen(buffer); v += u) {
+                    // copies amputated array for compare
+                    char *slice_to_compare = &buffer[v];
+                    // compare the two array over window of size u
+                    // breaks out if a fail match is found
+                    if (strncmp(slice_initial, slice_to_compare, u) != 0) {
+                        break;
+                    }
+                    // if match found, checks if at end of buffer
+                    if (v+u == strlen(buffer)) {
+                        check = 1;
+                        // breaks out since the rest of the computation is useless
+                        break;
+                    }
+                }
+            }
+            // Increment if one repeating pattern was found
+            if (check) {
+                printf("FOUND: %ld\n", j);
+                sum += j;
+            }
+        }
+    }
+
+    printf("Deduced value (day 1, part 2):\t%ld\n", sum);
 
     return 0;
 }
