@@ -28,10 +28,6 @@ int main()
         return 1;
     }
     printf("Number of lines read: %ld\n", read_lines);
-    // for (i = 0; i < read_lines; i++) {
-    //     printf("%ld - %ld\n", start[i], end[i]);
-    // }
-    // printf("\n");
 
     /*
     The ranges are separated by commas (,).
