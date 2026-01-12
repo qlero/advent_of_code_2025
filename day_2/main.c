@@ -68,7 +68,7 @@ int main()
         }
     }
 
-    printf("Deduced value (day 1, part 1):\t%ld\n", sum);
+    printf("Deduced value (day 2, part 1):\t%ld\n", sum);
 
     /*
     An ID is invalid if it is made only of some sequence of digits repeated at least twice. 
@@ -111,7 +111,7 @@ int main()
         }
     }
 
-    printf("Deduced value (day 1, part 2):\t%ld\n", sum);
+    printf("Deduced value (day 2, part 2):\t%ld\n", sum);
 
     return 0;
 }
