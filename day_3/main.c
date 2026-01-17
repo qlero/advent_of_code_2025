@@ -25,7 +25,6 @@ int main() {
     
     // 3. Solves part 2
     // GT: 168627047606506
-    //     168627047623452
 
     accumulator = 0;
     for (int i = 0; i < row_count; i++) {
