@@ -21,15 +21,17 @@ int main() {
     for (int i = 0; i < row_count; i++) {
         accumulator += solver(data[i], 2);
     }
-    printf("Day 3 part 1 Solution: %lld\n", accumulator);
+    printf("Day 3 part 1 Solution: %ld\n", accumulator);
     
     // 3. Solves part 2
     // GT: 168627047606506
     //     168627047623452
+
+    accumulator = 0;
     for (int i = 0; i < row_count; i++) {
         accumulator += solver(data[i], 12);
     }
-    printf("Day 3 part 2 Solution: %lld\n", accumulator);
+    printf("Day 3 part 2 Solution: %ld\n", accumulator);
 
     return 0;
 }
@@ -40,13 +42,14 @@ long solver(char data[MAX_COLUMNS], int size) {
 
     long accumulator = 0;
     long digit_place = pow(10, size-1); 
+    
     int index        = 0;
     int temp_index   = 0;
 
     // iterates over data array in a nested loop as such:
-    // 1. Iterates over size to exclude <size> from the search
+    // 1. Iterates over size to exclude <curr_size> elements from the search
     // 2. Finds the maximum value and its index in the data array
-    //    between <index> and <size>
+    //    between <index> and <curr_size>
     // 3. Updates the accumulator
     for (int i = size-1; i >= 0; i--){
         int max_value = 0;
@@ -60,8 +63,8 @@ long solver(char data[MAX_COLUMNS], int size) {
         }
         // Updates the accumulator
         accumulator += max_value * digit_place;
+        index        = temp_index + 1; 
         digit_place /= 10;
-        index        = temp_index+1; 
     }
     
     return accumulator;
