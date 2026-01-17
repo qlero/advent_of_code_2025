@@ -1,55 +1,69 @@
+#include <math.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <string.h> 
+
 #include "read_file.h"
 
-int check(char value[MAX_CHARS]) {
+long solver(char data[MAX_COLUMNS], int size);
 
-    int accumulator = 0;
+int main() {
 
-    for (int i = 0; i < strlen(value)-1; i++) {
-        for (int j = i+1; j < strlen(value); j++){
-            int temp = (value[i] - '0') * 10 + (value[j] - '0');
-            // printf("%d ", temp);
-            if (temp > accumulator) {
-                accumulator = temp;
-            }
-        }
-        // printf("\n");
+    // 1. Create data placeholder and load file content
+    char data[MAX_ROWS][MAX_COLUMNS] = {0};
+    int row_count = read_file("data.txt", data);
+    printf("Found %d datapoints.\n", row_count);
+
+    long accumulator = 0;
+
+    // 2. Solves part 1
+    // GT: 16946
+
+    for (int i = 0; i < row_count; i++) {
+        accumulator += solver(data[i], 2);
     }
-
-    return accumulator;
-
-}
-
-int main() 
-{
-    // declares the target filename
-    char * filename = "data.txt";
+    printf("Day 3 part 1 Solution: %lld\n", accumulator);
     
-    char values[MAX_ELEMENTS][MAX_CHARS] = { 0 };
-
-    int read_lines;
-    int max = 0;
-    int sum = 0;
-
-
-    // loads file
-    read_lines = day_3_read_file(filename, values);
-    if (read_lines == -1) 
-    {
-        return 1;
+    // 3. Solves part 2
+    // GT: 168627047606506
+    //     168627047623452
+    for (int i = 0; i < row_count; i++) {
+        accumulator += solver(data[i], 12);
     }
-    printf("Number of lines read: %d\n", read_lines);
-
-    // prints lines
-    for (int i = 0; i < read_lines; i++) {
-        max = check(values[i]);
-        sum += max;
-        printf("Line %d: %s -> %d | %d\n", i, values[i], max, sum);
-    }
-
-    printf("Deduced solution (day 3, part 1):\t%d\n", sum);
+    printf("Day 3 part 2 Solution: %lld\n", accumulator);
 
     return 0;
+}
+
+long solver(char data[MAX_COLUMNS], int size) {
+
+    // Declares important temp values
+
+    long accumulator = 0;
+    long digit_place = pow(10, size-1); 
+    int index        = 0;
+    int temp_index   = 0;
+
+    // iterates over data array in a nested loop as such:
+    // 1. Iterates over size to exclude <size> from the search
+    // 2. Finds the maximum value and its index in the data array
+    //    between <index> and <size>
+    // 3. Updates the accumulator
+    for (int i = size-1; i >= 0; i--){
+        int max_value = 0;
+        for (int j = index; j < strlen(data)-i; j++) {
+            int current_value = data[j] - '0';
+            // Finds the max value and updates the search's start index
+            if (current_value > max_value) {
+                max_value  = current_value;
+                temp_index = j;
+            }
+        }
+        // Updates the accumulator
+        accumulator += max_value * digit_place;
+        digit_place /= 10;
+        index        = temp_index+1; 
+    }
+    
+    return accumulator;
+
 }
