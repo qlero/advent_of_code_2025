@@ -12,7 +12,7 @@ struct SOLVER_RETURN {
 struct SOLVER_RETURN solver(struct SOLVER_RETURN state, int radius, int max, int row_count);
 
 struct SOLVER_RETURN_V2 {
-    char (*array)[MAX_COLUMNS];
+    char *array[MAX_COLUMNS];
     int accumulator;
 };
 
@@ -30,29 +30,29 @@ int main() {
     ret.accumulator = 0;
     memcpy(ret.array, data, sizeof(ret.array));
 
-    // struct SOLVER_RETURN_V2 ret2 = {data, 0};
+    struct SOLVER_RETURN_V2 ret2 = {data, 0};
 
-    // printf("[[Test 1, struct v1] update element 2 of array 0 to '2']\t");
-    // printf("%s -> ", ret.array[0]);
-    // ret.array[0][2] = 'a';
-    // printf("%s\n", ret.array[0]);
-    // printf("[Test intermediary] check original data array:\t\t\t%s\n", data[0]);
-    // printf("[[Test 2, struct v1] update accumulator to 2]]\t\t\t");
-    // printf("%d -> ", ret.accumulator);
-    // ret.accumulator = 2;
-    // printf("%d\n", ret.accumulator);
-    // // reset after test
-    // // ret.array[0][2] = '@'; # <- NOTE: will break exercise
+    printf("[[Test 1, struct v1] update element 2 of array 0 to '2']\t");
+    printf("%s -> ", ret.array[0]);
+    ret.array[0][2] = 'a';
+    printf("%s\n", ret.array[0]);
+    printf("[Test intermediary] check original data array:\t\t\t%s\n", data[0]);
+    printf("[[Test 2, struct v1] update accumulator to 2]]\t\t\t");
+    printf("%d -> ", ret.accumulator);
+    ret.accumulator = 2;
+    printf("%d\n", ret.accumulator);
+    // reset after test
+    // ret.array[0][2] = '@'; # <- NOTE: will break exercise
 
-    // printf("[[Test 3, struct v2] update element 2 of array 0 to '2']\t");
-    // printf("%s -> ", ret2.array[0]);
-    // ret2.array[0][2] = 'a';
-    // printf("%s\n", ret2.array[0]);
-    // printf("[Test intermediary] check original data array:\t\t\t%s\n", data[0]);
-    // printf("[[Test 4, struct v2] update accumulator to 2]]\t\t\t");
-    // printf("%d -> ", ret2.accumulator);
-    // ret2.accumulator = 2;
-    // printf("%d\n", ret2.accumulator);
+    printf("[[Test 3, struct v2] update element 2 of array 0 to '2']\t");
+    printf("%s -> ", ret2.array[0]);
+    ret2.array[0][2] = 'a';
+    printf("%s\n", ret2.array[0]);
+    printf("[Test intermediary] check original data array:\t\t\t%s\n", data[0]);
+    printf("[[Test 4, struct v2] update accumulator to 2]]\t\t\t");
+    printf("%d -> ", ret2.accumulator);
+    ret2.accumulator = 2;
+    printf("%d\n", ret2.accumulator);
 
     // 2. Solves part 1
     // GT: 1508
